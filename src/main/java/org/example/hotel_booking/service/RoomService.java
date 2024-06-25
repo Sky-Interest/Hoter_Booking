@@ -22,6 +22,10 @@ public class RoomService {
     public List<Room> findAllRooms() {
         return roomRepo.findAll();
     }
+    // 在RoomService中添加
+    public List<Room> findAvailableRooms() {
+        return roomRepo.findByStatus(Room.Status.AVAILABLE);
+    }
 
     public Room findRoomById(Long id) {
         return roomRepo.findById(id).orElse(null);

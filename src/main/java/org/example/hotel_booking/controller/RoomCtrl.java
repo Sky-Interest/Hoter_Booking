@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+//@CrossOrigin
 @RequestMapping("/api/rooms")
 public class RoomCtrl {
     private final RoomService roomService;
@@ -27,6 +28,11 @@ public class RoomCtrl {
         return roomService.findAllRooms();
     }
 
+    // 在RoomCtrl中添加
+    @GetMapping("/available")
+    public List<Room> getAvailableRooms() {
+        return roomService.findAvailableRooms();
+    }
     @GetMapping("/{id}")
     public Room getRoomById(@PathVariable Long id) {
         return roomService.findRoomById(id);
