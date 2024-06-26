@@ -19,4 +19,4 @@ export const getOrderDetail = (orderId) => axios.get(`${API_BASE_URL}/orders/${o
 
 // 提交支付
 export const submitPayment = (paymentData) => axios.post(`${API_BASE_URL}/payments`, paymentData);
-
+export const updateOrderStatus = (orderId, status) => axios.put(`${API_BASE_URL}/orders/${orderId}/status?status=${status}`);

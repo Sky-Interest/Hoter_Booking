@@ -1,40 +1,57 @@
 <template>
-  <div>
-    <el-card>
-      <div slot="header">订单详情</div>
-      <!-- 显示订单详情 -->
-      <p>订单号：{{ orderDetail.id }}</p>
-      <p>房间号：{{ orderDetail.roomNumber }}</p>
-      <p>入住日期：{{ orderDetail.checkInDate }}</p>
-      <p>退房日期：{{ orderDetail.checkOutDate }}</p>
-      <p>总价：{{ orderDetail.totalPrice }}</p>
-      <!-- 其他信息 -->
-    </el-card>
-  </div>
+  <el-card class="order-detail-box">
+    <div slot="header">订单详情</div>
+    <el-form ref="orderDetailForm">
+      <el-form-item label="订单号">
+        <el-input v-model="order.id" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="用户">
+        <el-input v-model="order.user.username" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="房间号">
+        <el-input v-model="order.room.roomNumber" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="入住日期">
+        <el-input v-model="order.checkInDate" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="退房日期">
+        <el-input v-model="order.checkOutDate" disabled></el-input>
+      </el-form-item>
+      <el-form-item label="总价">
+        <el-input v-model="order.totalPrice" disabled></el-input>
+      </el-form-item>
+    </el-form>
+  </el-card>
 </template>
 
 <script>
-// 假设有一个API方法 getOrderDetail 来获取订单详情
 import { getOrderDetail } from '@/api/service';
 
 export default {
   data() {
     return {
-      orderDetail: {}
+      order: {}
     };
   },
-  created() {
-    this.fetchOrderDetail();
-  },
   methods: {
-    fetchOrderDetail() {
-      const orderId = this.$route.params.id; // 假设订单ID通过路由参数传递
+    loadOrderDetails() {
+      const orderId = this.$route.params.orderId;
       getOrderDetail(orderId).then(response => {
-        this.orderDetail = response.data;
+        this.order = response.data;
       }).catch(error => {
-        console.error("获取订单详情失败:", error);
+        console.error("加载订单详情失败:", error);
       });
     }
+  },
+  mounted() {
+    this.loadOrderDetails();
   }
 };
 </script>
+
+<style scoped>
+.order-detail-box {
+  max-width: 600px;
+  margin: 30px auto;
+}
+</style>
