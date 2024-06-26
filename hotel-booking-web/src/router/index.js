@@ -5,7 +5,8 @@ import Register from '@/components/Register';
 import OrderDetail from '@/components/OrderDetail';
 import Payment from '@/components/Payment';
 import Rooms from "@/components/Rooms.vue";
-import OrderRoom from "@/components/OrderRoom.vue"; // 引入OrderRoom组件
+import OrderRoom from "@/components/OrderRoom.vue";
+import OrderOverview from "@/components/OrderOverview.vue"; // 引入OrderRoom组件
 
 Vue.use(Router);
 
@@ -32,7 +33,12 @@ export default new Router({
       name: 'OrderDetail',
       component: OrderDetail
     },
-    // router/index.js 或类似的路由配置文件
+    {
+      path: '/order-overview',
+      name: 'OrderOverview',
+      component: OrderOverview
+    },
+
     {
       path: '/payment/:orderId',
       name: 'Payment',
