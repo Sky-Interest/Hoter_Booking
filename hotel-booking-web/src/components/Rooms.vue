@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       房间信息
-      <el-button type="primary" @click="showAddRoomDialog = true">增加房间</el-button>
+      <el-button v-if="role === 'ADMIN'" type="primary" @click="showAddRoomDialog = true">增加房间</el-button>
     </div>
     <el-table :data="rooms" style="width: 100%">
       <el-table-column prop="roomNumber" label="房间号"></el-table-column>
@@ -10,7 +10,7 @@
       <el-table-column prop="price" label="价格"></el-table-column>
       <el-table-column prop="status" label="状态"></el-table-column>
       <el-table-column prop="description" label="备注"></el-table-column>
-      <el-table-column label="操作" width="180">
+      <el-table-column v-if="role === 'ADMIN'" label="操作" width="180">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="showEditDialog(scope.row)">修改</el-button>
           <el-button size="mini" type="danger" @click="confirmDelete(scope.row)">删除</el-button>
@@ -116,7 +116,8 @@ export default {
       // 分页相关数据
       currentPage: 1,
       pageSize: 10,
-      totalRooms: 0
+      totalRooms: 0,
+      role: ''
     };
   },
   methods: {
@@ -174,8 +175,16 @@ export default {
         console.error("删除房间失败:", error);
       });
     },
+    checkLoginStatus() {
+      // 从localStorage获取用户信息
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      if (userInfo && userInfo.role) {
+        this.role = userInfo.role; // 确保userInfo对象中包含role字段
+      }
+    }
   },
   created() {
+    this.checkLoginStatus();
     this.fetchRooms();
   },
 };

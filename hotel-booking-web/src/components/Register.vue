@@ -24,7 +24,8 @@ export default {
       registerForm: {
         username: '',
         email: '',
-        password: ''
+        password: '',
+        role: 'USER'
       }
     };
   },

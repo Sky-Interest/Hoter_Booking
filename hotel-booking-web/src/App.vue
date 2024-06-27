@@ -10,18 +10,11 @@
       active-text-color="#ffd04b">
       <el-menu-item index="1"><router-link to="/">房间总览</router-link></el-menu-item>
       <el-submenu index="2">
-        <template slot="title">我的工作台</template>
-        <el-menu-item index="2-1">选项1</el-menu-item>
-        <el-menu-item index="2-2">选项2</el-menu-item>
-        <el-menu-item index="2-3">选项3</el-menu-item>
-        <el-submenu index="2-4">
-          <template slot="title">选项4</template>
-          <el-menu-item index="2-4-1">选项1</el-menu-item>
-          <el-menu-item index="2-4-2">选项2</el-menu-item>
-          <el-menu-item index="2-4-3">选项3</el-menu-item>
-        </el-submenu>
+        <template slot="title">账号管理</template>
+        <el-menu-item index="2-1">账号信息</el-menu-item>
+        <el-menu-item index="2-2">修改密码</el-menu-item>
       </el-submenu>
-      <el-menu-item index="3"><router-link to="/order-overview">订单总览</router-link></el-menu-item>
+      <el-menu-item v-if="role === 'ADMIN'" index="3"><router-link to="/order-overview">订单总览</router-link></el-menu-item>
       <el-menu-item index="4"><router-link to="/order-room">订购页面</router-link></el-menu-item>
     </el-menu>
 
@@ -32,10 +25,7 @@
       </template>
       <template v-else>
         <el-col :span="24" align="middle">
-          <div>欢迎您：({{ role }}){{ username }}</div>
-
-<!--          <span>欢迎您：{{ username }}</span>-->
-<!--          <div class="space"> </div>-->
+          <div>欢迎您：({{ getRoleDisplayName(role) }})   {{ username }}</div>
           <el-button type="danger" @click="logout">退出</el-button>
         </el-col>
       </template>
@@ -53,7 +43,7 @@ export default {
       activeIndex2: '1',
       isLoggedIn: false,
       username: '',
-      role:''
+      role: ''
     };
   },
   methods: {
@@ -81,7 +71,17 @@ export default {
       if (userInfo && userInfo.username) {
         this.isLoggedIn = true;
         this.username = userInfo.username; // 假设userInfo对象中包含username字段
-        this.role = userInfo.role;
+        this.role = userInfo.role; // 确保userInfo对象中包含role字段
+      }
+    },
+    getRoleDisplayName(role) {
+      switch (role) {
+        case 'USER':
+          return '操作员';
+        case 'ADMIN':
+          return '管理员';
+        default:
+          return role;
       }
     }
   },
