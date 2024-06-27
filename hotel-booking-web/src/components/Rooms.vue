@@ -6,9 +6,17 @@
     </div>
     <el-table :data="rooms" style="width: 100%">
       <el-table-column prop="roomNumber" label="房间号"></el-table-column>
-      <el-table-column prop="type" label="类型"></el-table-column>
+      <el-table-column prop="type" label="类型">
+        <template slot-scope="scope">
+          {{ translateType(scope.row.type) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="price" label="价格"></el-table-column>
-      <el-table-column prop="status" label="状态"></el-table-column>
+      <el-table-column prop="status" label="状态">
+        <template slot-scope="scope">
+          {{ translateStatus(scope.row.status) }}
+        </template>
+      </el-table-column>
       <el-table-column prop="description" label="备注"></el-table-column>
       <el-table-column v-if="role === 'ADMIN'" label="操作" width="180">
         <template slot-scope="scope">
@@ -66,20 +74,20 @@
             <el-option label="双人间" value="DOUBLE"></el-option>
             <el-option label="套间" value="SUITE"></el-option>
           </el-select>
-        </el-form-item>
-        <el-form-item label="价格">
-          <el-input-number v-model="editRoomForm.price" :min="0" label="价格"></el-input-number>
-        </el-form-item>
-        <el-form-item label="状态">
-          <el-select v-model="editRoomForm.status" placeholder="请选择状态">
-            <el-option label="可用" value="AVAILABLE"></el-option>
-            <el-option label="已预订" value="BOOKED"></el-option>
-            <el-option label="维护中" value="MAINTENANCE"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input v-model="editRoomForm.description" type="textarea"></el-input>
-        </el-form-item>
+          </el-form-item>
+          <el-form-item label="价格">
+            <el-input-number v-model="editRoomForm.price" :min="0" label="价格"></el-input-number>
+          </el-form-item>
+          <el-form-item label="状态">
+            <el-select v-model="editRoomForm.status" placeholder="请选择状态">
+              <el-option label="可用" value="AVAILABLE"></el-option>
+              <el-option label="已预订" value="BOOKED"></el-option>
+              <el-option label="维护中" value="MAINTENANCE"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="备注">
+            <el-input v-model="editRoomForm.description" type="textarea"></el-input>
+          </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showEditRoomDialog = false">取消修改</el-button>
@@ -113,7 +121,6 @@ export default {
         description: '',
         status: ''
       },
-      // 分页相关数据
       currentPage: 1,
       pageSize: 10,
       totalRooms: 0,
@@ -123,8 +130,8 @@ export default {
   methods: {
     fetchRooms() {
       getRooms(this.currentPage, this.pageSize).then(response => {
-        this.rooms = response.data.content; // 假设后端返回分页后的房间数据
-        this.totalRooms = response.data.totalElements; // 假设后端返回总房间数
+        this.rooms = response.data.content;
+        this.totalRooms = response.data.totalElements;
       }).catch(error => {
         console.error("获取房间列表失败:", error);
       });
@@ -140,47 +147,61 @@ export default {
     addRoom() {
       addRoom(this.addRoomForm).then(() => {
         this.showAddRoomDialog = false;
-        this.fetchRooms(); // 重新获取房间列表
+        this.fetchRooms();
       }).catch(error => {
         console.error("添加房间失败:", error);
       });
     },
     showEditDialog(row) {
-      this.editRoomForm = Object.assign({}, row); // 复制行数据到表单
+      this.editRoomForm = Object.assign({}, row);
       this.showEditRoomDialog = true;
     },
     editRoom() {
       updateRoom(this.editRoomForm).then(() => {
         this.showEditRoomDialog = false;
-        this.fetchRooms(); // 重新获取房间列表
+        this.fetchRooms();
       }).catch(error => {
         console.error("修改房间信息失败:", error);
       });
     },
     confirmDelete(row) {
-      this.$confirm(`是否确认删除房间号为 ${row.roomNumber} 的房间?`, '警告', {
+      this.$confirm(`是否确认维护房间号为 ${row.roomNumber} 的房间?`, '警告', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.deleteRoom(row.id);
       }).catch(() => {
-        // 取消删除操作
       });
     },
     deleteRoom(roomId) {
       removeRoom(roomId).then(() => {
-        this.fetchRooms(); // 重新获取房间列表
+        this.fetchRooms();
       }).catch(error => {
         console.error("删除房间失败:", error);
       });
     },
     checkLoginStatus() {
-      // 从localStorage获取用户信息
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
       if (userInfo && userInfo.role) {
-        this.role = userInfo.role; // 确保userInfo对象中包含role字段
+        this.role = userInfo.role;
       }
+    },
+    translateType(type) {
+      const typeMap = {
+        'SINGLE': '单人间',
+        'DOUBLE': '双人间',
+        'SUITE': '套间'
+      };
+      return typeMap[type] || type;
+    },
+    translateStatus(status) {
+      const statusMap = {
+        'AVAILABLE': '可用',
+        'BOOKED': '已预订',
+        'MAINTENANCE': '维护中'
+      };
+      return statusMap[status] || status;
     }
   },
   created() {

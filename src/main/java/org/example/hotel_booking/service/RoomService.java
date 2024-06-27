@@ -50,7 +50,9 @@ public class RoomService {
 
     // 删除房间
     public void deleteRoom(Long id) {
-        Room room = roomRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Room not found for this id :: " + id));
-        roomRepo.delete(room);
+        Room room = roomRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Room not found for this id :: " + id));
+        room.setStatus(Room.Status.MAINTENANCE); // 将房间状态改为维护中
+        roomRepo.save(room);
     }
 }
