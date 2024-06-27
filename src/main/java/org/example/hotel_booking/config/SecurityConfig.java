@@ -2,6 +2,7 @@ package org.example.hotel_booking.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -28,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable() // 禁用CSRF保护
                 .authorizeRequests()
                 .antMatchers("/**").permitAll() // 允许所有请求通过
+                .antMatchers(HttpMethod.DELETE, "/api/users/**").permitAll()
                 .anyRequest().authenticated();
     }
 

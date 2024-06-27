@@ -13,7 +13,7 @@
       <el-table-column v-if="role === 'ADMIN'" label="操作" width="180">
         <template slot-scope="scope">
           <el-button size="mini" type="primary" @click="showEditDialog(scope.row)">修改</el-button>
-          <el-button size="mini" type="danger" @click="confirmDelete(scope.row)">删除</el-button>
+          <el-button size="mini" type="danger" @click="confirmDelete(scope.row)">维护</el-button>
         </template>
       </el-table-column>
     </el-table>

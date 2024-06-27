@@ -10,7 +10,16 @@ export const getRooms = (page, size) => axios.get(`${API_BASE_URL}/rooms`, {
   }
 });
 // export const getRooms = () => axios.get(`${API_BASE_URL}/rooms`);
-export const getUsers = () => axios.get(`${API_BASE_URL}/users`);
+export const getUsers = () => axios.get(`${API_BASE_URL}/`);
+// 更新用户信息
+export const updateUser = (userData) => axios.put(`${API_BASE_URL}/${userData.id}`, userData);
+// 删除用户
+export const removeUser = (userId) => axios.delete(`${API_BASE_URL}/users/${userId}`);
+// 禁用用户
+export const disableUser = (userId) => axios.put(`${API_BASE_URL}/users/${userId}/disable`);
+
+// 启用用户
+export const enableUser = (userId) => axios.put(`${API_BASE_URL}/users/${userId}/enable`);
 export const getOrders = () => axios.get(`${API_BASE_URL}/orders`);
 export const createOrder = (order) => axios.post(`${API_BASE_URL}/orders`, order);
 // 登录

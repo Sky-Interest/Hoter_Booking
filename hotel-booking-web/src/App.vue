@@ -9,11 +9,7 @@
       text-color="#fff"
       active-text-color="#ffd04b">
       <el-menu-item index="1"><router-link to="/">房间总览</router-link></el-menu-item>
-      <el-submenu index="2">
-        <template slot="title">账号管理</template>
-        <el-menu-item index="2-1">账号信息</el-menu-item>
-        <el-menu-item index="2-2">修改密码</el-menu-item>
-      </el-submenu>
+      <el-menu-item v-if="role === 'ADMIN'" index="2"><router-link to="/user-manage">账号管理</router-link></el-menu-item>
       <el-menu-item v-if="role === 'ADMIN'" index="3"><router-link to="/order-overview">订单总览</router-link></el-menu-item>
       <el-menu-item index="4"><router-link to="/order-room">订购页面</router-link></el-menu-item>
     </el-menu>
