@@ -8,7 +8,7 @@
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b">
-      <el-menu-item index="1"><a href="/" target="_blank">房间总览</a></el-menu-item>
+      <el-menu-item index="1"><router-link to="/">房间总览</router-link></el-menu-item>
       <el-submenu index="2">
         <template slot="title">我的工作台</template>
         <el-menu-item index="2-1">选项1</el-menu-item>
@@ -21,13 +21,75 @@
           <el-menu-item index="2-4-3">选项3</el-menu-item>
         </el-submenu>
       </el-submenu>
-      <el-menu-item index="3" disabled>消息中心</el-menu-item>
-      <el-menu-item index="4"><a href="/order-room" target="_blank">订购页面</a></el-menu-item>
+      <el-menu-item index="3"><router-link to="/order-overview">订单总览</router-link></el-menu-item>
+      <el-menu-item index="4"><router-link to="/order-room">订购页面</router-link></el-menu-item>
     </el-menu>
+
+    <el-row type="flex" justify="center" class="menu-right">
+      <template v-if="!isLoggedIn">
+        <el-button @click="navigateTo('/login')">登录</el-button>
+        <el-button @click="navigateTo('/register')">注册</el-button>
+      </template>
+      <template v-else>
+        <el-col :span="24" align="middle">
+          <div>欢迎您：({{ role }}){{ username }}</div>
+
+<!--          <span>欢迎您：{{ username }}</span>-->
+<!--          <div class="space"> </div>-->
+          <el-button type="danger" @click="logout">退出</el-button>
+        </el-col>
+      </template>
+    </el-row>
 
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      activeIndex: '1',
+      activeIndex2: '1',
+      isLoggedIn: false,
+      username: '',
+      role:''
+    };
+  },
+  methods: {
+    handleSelect(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    navigateTo(path) {
+      if (this.$route.path !== path) {
+        this.$router.push(path);
+      }
+    },
+    logout() {
+      // 清除登录信息
+      localStorage.removeItem('userInfo');
+      this.isLoggedIn = false;
+      this.username = '';
+      this.role = '';
+      // 刷新页面
+      this.$router.push('/');
+      location.reload();
+    },
+    checkLoginStatus() {
+      // 从localStorage获取用户信息
+      const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+      if (userInfo && userInfo.username) {
+        this.isLoggedIn = true;
+        this.username = userInfo.username; // 假设userInfo对象中包含username字段
+        this.role = userInfo.role;
+      }
+    }
+  },
+  mounted() {
+    this.checkLoginStatus();
+  }
+}
+</script>
 
 <style lang="less">
 #app {
@@ -36,6 +98,8 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #f0f2f5; /* 设置全局背景色为浅灰色 */
+  min-height: 100vh; /* 确保背景色覆盖整个页面 */
 }
 
 nav {
@@ -49,20 +113,9 @@ nav {
       color: #42b983;
     }
   }
-}
-</style>
-<script>
-export default {
-  data() {
-    return {
-      activeIndex: '1',
-      activeIndex2: '1'
-    };
-  },
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    }
+
+  .menu-right .el-col span {
+    margin-right: 10px;
   }
 }
-</script>
+</style>

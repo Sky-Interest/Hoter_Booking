@@ -16,7 +16,6 @@
 </template>
 
 <script>
-// 假设有一个API方法 createUser 来创建用户
 import { createUser } from '@/api/service';
 
 export default {
