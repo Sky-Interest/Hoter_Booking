@@ -32,7 +32,7 @@ public class PaymentCtrl {
                 payment.setOrder(order);
                 payment.setPaymentDate(LocalDateTime.now()); // 设置支付时间为当前时间
                 Payment savedPayment = paymentService.savePayment(payment);
-                // 假设支付成功，更新订单状态为COMPLETED
+                // 假设支付成功，更新订单状态为COMPLETED，并更新房间状态为BOOKED
                 orderService.updateOrderStatusToCompleted(order.getId());
                 return savedPayment;
             } else {
