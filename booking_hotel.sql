@@ -1,0 +1,218 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : localhost_3306
+ Source Server Type    : MySQL
+ Source Server Version : 100432
+ Source Host           : localhost:3306
+ Source Schema         : booking_hotel
+
+ Target Server Type    : MySQL
+ Target Server Version : 100432
+ File Encoding         : 65001
+
+ Date: 28/06/2024 11:07:25
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for orders
+-- ----------------------------
+DROP TABLE IF EXISTS `orders`;
+CREATE TABLE `orders`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NOT NULL,
+  `room_id` int NOT NULL,
+  `check_in_date` date NOT NULL,
+  `check_out_date` date NOT NULL,
+  `status` enum('PENDING','CONFIRMED','CANCELLED','COMPLETED') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'PENDING',
+  `total_price` decimal(10, 2) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_id`(`user_id` ASC) USING BTREE,
+  INDEX `room_id`(`room_id` ASC) USING BTREE,
+  CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`room_id`) REFERENCES `rooms` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 60 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of orders
+-- ----------------------------
+INSERT INTO `orders` VALUES (1, 1, 1, '2024-07-01', '2024-07-03', 'CONFIRMED', 200.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (2, 2, 2, '2024-07-05', '2024-07-07', 'PENDING', 300.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (3, 3, 3, '2024-07-10', '2024-07-12', 'CANCELLED', 500.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (4, 4, 4, '2024-07-15', '2024-07-17', 'COMPLETED', 220.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (5, 5, 5, '2024-07-20', '2024-07-22', 'CONFIRMED', 320.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (6, 6, 6, '2024-07-25', '2024-07-27', 'PENDING', 520.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (7, 7, 7, '2024-07-30', '2024-08-01', 'CANCELLED', 240.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (8, 8, 8, '2024-08-05', '2024-08-07', 'COMPLETED', 340.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (9, 9, 9, '2024-08-10', '2024-08-12', 'CONFIRMED', 540.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (10, 10, 10, '2024-08-15', '2024-08-17', 'PENDING', 260.00, '2024-06-24 10:29:21', '2024-06-24 10:34:01');
+INSERT INTO `orders` VALUES (11, 11, 10, '2024-08-08', '2024-08-09', 'PENDING', 666.00, '2024-06-25 16:40:52', '2024-06-25 16:40:52');
+INSERT INTO `orders` VALUES (21, 1, 5, '2024-06-25', '2024-06-26', NULL, 320.00, '2024-06-25 21:41:47', '2024-06-25 21:41:47');
+INSERT INTO `orders` VALUES (22, 1, 1, '2024-06-25', '2024-06-26', 'PENDING', 200.00, '2024-06-25 21:45:22', '2024-06-25 21:45:22');
+INSERT INTO `orders` VALUES (23, 1, 1, '2024-06-25', '2024-06-26', 'PENDING', 200.00, '2024-06-25 21:49:49', '2024-06-25 21:49:49');
+INSERT INTO `orders` VALUES (24, 1, 1, '2024-06-25', '2024-06-26', 'PENDING', 200.00, '2024-06-25 21:51:11', '2024-06-25 21:51:11');
+INSERT INTO `orders` VALUES (25, 1, 5, '2024-06-26', '2024-06-28', 'PENDING', 480.00, '2024-06-26 10:24:39', '2024-06-26 10:24:39');
+INSERT INTO `orders` VALUES (26, 1, 3, '2024-06-26', '2024-06-26', 'PENDING', 250.00, '2024-06-26 10:57:32', '2024-06-26 10:57:32');
+INSERT INTO `orders` VALUES (27, 1, 1, '2024-06-26', '2024-06-26', 'PENDING', 100.00, '2024-06-26 11:17:47', '2024-06-26 11:17:47');
+INSERT INTO `orders` VALUES (28, 1, 3, '2024-06-26', '2024-06-27', 'PENDING', 500.00, '2024-06-26 11:27:16', '2024-06-26 11:27:16');
+INSERT INTO `orders` VALUES (29, 1, 3, '2024-06-26', '2024-06-27', 'PENDING', 500.00, '2024-06-26 14:20:06', '2024-06-26 14:20:06');
+INSERT INTO `orders` VALUES (30, 1, 1, '2024-06-26', '2024-06-27', 'COMPLETED', 200.00, '2024-06-26 14:48:19', '2024-06-26 06:48:24');
+INSERT INTO `orders` VALUES (31, 1, 1, '2024-06-26', '2024-06-26', 'COMPLETED', 100.00, '2024-06-26 14:54:17', '2024-06-26 14:57:41');
+INSERT INTO `orders` VALUES (32, 1, 1, '2024-06-26', '2024-06-27', 'COMPLETED', 740.00, '2024-06-26 15:12:53', '2024-06-26 15:13:07');
+INSERT INTO `orders` VALUES (33, 1, 5, '2024-06-26', '2024-06-27', 'CANCELLED', 320.00, '2024-06-26 15:15:41', '2024-06-26 15:15:42');
+INSERT INTO `orders` VALUES (34, 1, 1, '2024-06-26', '2024-06-27', 'COMPLETED', 200.00, '2024-06-26 15:35:41', '2024-06-26 15:35:59');
+INSERT INTO `orders` VALUES (35, 1, 3, '2024-06-26', '2024-06-27', 'CANCELLED', 500.00, '2024-06-26 15:47:35', '2024-06-26 15:47:37');
+INSERT INTO `orders` VALUES (36, 1, 5, '2024-06-26', '2024-06-27', 'CANCELLED', 320.00, '2024-06-26 15:48:20', '2024-06-26 15:48:23');
+INSERT INTO `orders` VALUES (37, 1, 9, '2024-06-26', '2024-06-26', 'CANCELLED', 270.00, '2024-06-26 15:51:12', '2024-06-26 15:51:16');
+INSERT INTO `orders` VALUES (38, 1, 3, '2024-06-26', '2024-06-27', 'COMPLETED', 500.00, '2024-06-26 16:50:49', '2024-06-26 16:50:52');
+INSERT INTO `orders` VALUES (39, 1, 1, '2024-06-26', '2024-06-27', 'COMPLETED', 200.00, '2024-06-26 20:33:33', '2024-06-26 20:33:40');
+INSERT INTO `orders` VALUES (40, 1, 1, '2024-06-26', '2024-06-27', 'PENDING', 200.00, '2024-06-26 20:37:03', '2024-06-26 20:37:03');
+INSERT INTO `orders` VALUES (41, 1, 1, '2024-06-26', '2024-06-30', 'COMPLETED', 100.00, '2024-06-26 20:50:13', '2024-06-26 20:50:25');
+INSERT INTO `orders` VALUES (42, 1, 1, '2024-06-26', '2024-06-28', 'PENDING', 100.00, '2024-06-26 20:50:45', '2024-06-26 20:50:45');
+INSERT INTO `orders` VALUES (43, 1, 1, '2024-06-26', '2024-06-28', 'PENDING', 100.00, '2024-06-26 20:53:12', '2024-06-26 20:53:12');
+INSERT INTO `orders` VALUES (44, 1, 5, '2024-06-26', '2024-06-27', 'COMPLETED', 160.00, '2024-06-26 20:53:44', '2024-06-26 20:53:51');
+INSERT INTO `orders` VALUES (45, 1, 1, '2024-06-26', '2024-06-27', 'COMPLETED', 100.00, '2024-06-26 21:11:08', '2024-06-26 21:11:11');
+INSERT INTO `orders` VALUES (46, 1, 1, '2024-06-26', '2024-06-27', 'COMPLETED', 100.00, '2024-06-26 21:16:12', '2024-06-26 21:17:16');
+INSERT INTO `orders` VALUES (47, 1, 1, '2024-06-27', '2024-06-28', 'COMPLETED', 100.00, '2024-06-27 14:04:13', '2024-06-27 14:04:25');
+INSERT INTO `orders` VALUES (48, 1, 1, '2024-06-27', '2024-06-28', 'COMPLETED', 100.00, '2024-06-27 14:11:15', '2024-06-27 14:11:19');
+INSERT INTO `orders` VALUES (49, 12, 1, '2024-06-27', '2024-06-27', 'COMPLETED', 100.00, '2024-06-27 14:40:59', '2024-06-27 14:41:03');
+INSERT INTO `orders` VALUES (50, 12, 1, '2024-06-27', '2024-06-27', 'COMPLETED', 100.00, '2024-06-27 14:44:14', '2024-06-27 14:44:22');
+INSERT INTO `orders` VALUES (51, 12, 1, '2024-06-27', '2024-06-28', 'COMPLETED', 100.00, '2024-06-27 14:54:04', '2024-06-27 14:54:12');
+INSERT INTO `orders` VALUES (52, 15, 1, '2024-06-27', '2024-06-27', 'COMPLETED', 100.00, '2024-06-27 21:26:09', '2024-06-27 21:26:52');
+INSERT INTO `orders` VALUES (53, 15, 10, '2024-06-27', '2024-06-28', 'COMPLETED', 130.00, '2024-06-27 21:47:14', '2024-06-27 21:47:17');
+INSERT INTO `orders` VALUES (54, 13, 5, '2024-06-27', '2024-06-29', 'COMPLETED', 160.00, '2024-06-28 01:20:28', '2024-06-28 01:20:30');
+INSERT INTO `orders` VALUES (55, 17, 3, '2024-06-28', '2024-06-29', 'COMPLETED', 250.00, '2024-06-28 09:15:44', '2024-06-28 09:15:54');
+INSERT INTO `orders` VALUES (56, 18, 4, '2024-06-28', '2024-06-29', 'PENDING', 110.00, '2024-06-28 09:27:58', '2024-06-28 09:27:58');
+INSERT INTO `orders` VALUES (57, 19, 4, '2024-06-28', '2024-06-29', 'COMPLETED', 110.00, '2024-06-28 09:32:30', '2024-06-28 09:32:40');
+INSERT INTO `orders` VALUES (58, 20, 4, '2024-06-28', '2024-06-29', 'COMPLETED', 110.00, '2024-06-28 09:41:10', '2024-06-28 09:41:29');
+INSERT INTO `orders` VALUES (59, 22, 5, '2024-06-28', '2024-06-30', 'COMPLETED', 160.00, '2024-06-28 10:05:31', '2024-06-28 10:05:49');
+
+-- ----------------------------
+-- Table structure for payments
+-- ----------------------------
+DROP TABLE IF EXISTS `payments`;
+CREATE TABLE `payments`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `order_id` int NOT NULL,
+  `payment_date` timestamp NOT NULL DEFAULT current_timestamp,
+  `amount` decimal(10, 2) NOT NULL,
+  `status` enum('PENDING','COMPLETED','FAILED') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'PENDING',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `order_id`(`order_id` ASC) USING BTREE,
+  CONSTRAINT `payments_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of payments
+-- ----------------------------
+INSERT INTO `payments` VALUES (2, 29, '2024-06-26 06:20:18', 500.00, NULL, '2024-06-26 14:20:18', '2024-06-26 14:20:18');
+INSERT INTO `payments` VALUES (3, 29, '2024-06-26 06:22:59', 500.00, NULL, '2024-06-26 14:22:59', '2024-06-26 14:22:59');
+INSERT INTO `payments` VALUES (4, 30, '2024-06-26 06:48:24', 200.00, NULL, '2024-06-26 14:48:24', '2024-06-26 14:48:24');
+INSERT INTO `payments` VALUES (5, 31, '2024-06-26 06:54:20', 100.00, NULL, '2024-06-26 14:54:20', '2024-06-26 14:54:20');
+INSERT INTO `payments` VALUES (6, 31, '2024-06-26 14:57:41', 100.00, NULL, '2024-06-26 14:57:41', '2024-06-26 14:57:41');
+INSERT INTO `payments` VALUES (7, 32, '2024-06-26 15:13:07', 740.00, NULL, '2024-06-26 15:13:07', '2024-06-26 15:13:07');
+INSERT INTO `payments` VALUES (8, 34, '2024-06-26 15:35:59', 200.00, NULL, '2024-06-26 15:35:59', '2024-06-26 15:35:59');
+INSERT INTO `payments` VALUES (9, 38, '2024-06-26 16:50:52', 500.00, NULL, '2024-06-26 16:50:52', '2024-06-26 16:50:52');
+INSERT INTO `payments` VALUES (10, 39, '2024-06-26 20:33:40', 200.00, NULL, '2024-06-26 20:33:40', '2024-06-26 20:33:40');
+INSERT INTO `payments` VALUES (11, 41, '2024-06-26 20:50:25', 100.00, NULL, '2024-06-26 20:50:25', '2024-06-26 20:50:25');
+INSERT INTO `payments` VALUES (12, 44, '2024-06-26 20:53:51', 160.00, NULL, '2024-06-26 20:53:51', '2024-06-26 20:53:51');
+INSERT INTO `payments` VALUES (13, 45, '2024-06-26 21:11:11', 100.00, NULL, '2024-06-26 21:11:11', '2024-06-26 21:11:11');
+INSERT INTO `payments` VALUES (14, 46, '2024-06-26 21:17:16', 100.00, NULL, '2024-06-26 21:17:16', '2024-06-26 21:17:16');
+INSERT INTO `payments` VALUES (15, 47, '2024-06-27 14:04:25', 100.00, NULL, '2024-06-27 14:04:25', '2024-06-27 14:04:25');
+INSERT INTO `payments` VALUES (16, 48, '2024-06-27 14:11:19', 100.00, NULL, '2024-06-27 14:11:19', '2024-06-27 14:11:19');
+INSERT INTO `payments` VALUES (17, 49, '2024-06-27 14:41:03', 100.00, NULL, '2024-06-27 14:41:03', '2024-06-27 14:41:03');
+INSERT INTO `payments` VALUES (18, 50, '2024-06-27 14:44:22', 100.00, NULL, '2024-06-27 14:44:22', '2024-06-27 14:44:22');
+INSERT INTO `payments` VALUES (19, 51, '2024-06-27 14:54:12', 100.00, NULL, '2024-06-27 14:54:12', '2024-06-27 14:54:12');
+INSERT INTO `payments` VALUES (20, 52, '2024-06-27 21:26:52', 100.00, NULL, '2024-06-27 21:26:52', '2024-06-27 21:26:52');
+INSERT INTO `payments` VALUES (21, 53, '2024-06-27 21:47:17', 130.00, NULL, '2024-06-27 21:47:17', '2024-06-27 21:47:17');
+INSERT INTO `payments` VALUES (22, 54, '2024-06-28 01:20:30', 160.00, NULL, '2024-06-28 01:20:30', '2024-06-28 01:20:30');
+INSERT INTO `payments` VALUES (23, 55, '2024-06-28 09:15:54', 250.00, NULL, '2024-06-28 09:15:54', '2024-06-28 09:15:54');
+INSERT INTO `payments` VALUES (24, 57, '2024-06-28 09:32:40', 110.00, NULL, '2024-06-28 09:32:40', '2024-06-28 09:32:40');
+INSERT INTO `payments` VALUES (25, 58, '2024-06-28 09:41:29', 110.00, NULL, '2024-06-28 09:41:29', '2024-06-28 09:41:29');
+INSERT INTO `payments` VALUES (26, 59, '2024-06-28 10:05:49', 160.00, NULL, '2024-06-28 10:05:49', '2024-06-28 10:05:49');
+
+-- ----------------------------
+-- Table structure for rooms
+-- ----------------------------
+DROP TABLE IF EXISTS `rooms`;
+CREATE TABLE `rooms`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `room_number` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `type` enum('SINGLE','DOUBLE','SUITE') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `price` decimal(10, 2) NOT NULL,
+  `status` enum('AVAILABLE','BOOKED','MAINTENANCE') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'AVAILABLE',
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `room_number`(`room_number` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of rooms
+-- ----------------------------
+INSERT INTO `rooms` VALUES (1, '101', 'SINGLE', 100.00, 'MAINTENANCE', 'Single room with one bed', '2024-06-24 10:26:22', '2024-06-28 03:32:24');
+INSERT INTO `rooms` VALUES (2, '102', 'DOUBLE', 150.00, 'BOOKED', 'Double room with two beds', '2024-06-24 10:26:22', '2024-06-24 10:26:22');
+INSERT INTO `rooms` VALUES (3, '103', 'SUITE', 250.00, 'BOOKED', 'Suite with living area', '2024-06-24 10:26:22', '2024-06-24 10:26:22');
+INSERT INTO `rooms` VALUES (4, '104', 'SINGLE', 110.00, 'BOOKED', 'Single room with garden view', '2024-06-24 10:26:22', '2024-06-28 09:34:53');
+INSERT INTO `rooms` VALUES (5, '105', 'DOUBLE', 160.00, 'BOOKED', 'Double room with extra space', '2024-06-24 10:26:22', '2024-06-28 09:34:49');
+INSERT INTO `rooms` VALUES (6, '106', 'SUITE', 260.00, 'AVAILABLE', 'Suite with private balcony', '2024-06-24 10:26:22', '2024-06-28 09:34:44');
+INSERT INTO `rooms` VALUES (7, '107', 'SINGLE', 120.00, 'AVAILABLE', 'Single room with high-speed internet', '2024-06-24 10:26:22', '2024-06-26 21:16:54');
+INSERT INTO `rooms` VALUES (8, '108', 'DOUBLE', 170.00, 'MAINTENANCE', 'Double room with city view', '2024-06-24 10:26:22', '2024-06-25 15:33:48');
+INSERT INTO `rooms` VALUES (9, '109', 'SUITE', 270.00, 'AVAILABLE', 'Suite with jacuzzi', '2024-06-24 10:26:22', '2024-06-25 15:33:48');
+INSERT INTO `rooms` VALUES (10, '110', 'SINGLE', 130.00, 'BOOKED', 'Single room with complimentary breakfast', '2024-06-24 10:26:22', '2024-06-24 10:26:22');
+INSERT INTO `rooms` VALUES (24, '123', 'DOUBLE', 2133.00, 'AVAILABLE', 'wu', '2024-06-28 09:35:18', '2024-06-28 09:35:18');
+INSERT INTO `rooms` VALUES (25, '124', 'DOUBLE', 2123.00, 'AVAILABLE', 'm', '2024-06-28 09:42:19', '2024-06-28 09:42:59');
+INSERT INTO `rooms` VALUES (26, '1234', 'SINGLE', 123.00, 'MAINTENANCE', 'we', '2024-06-28 10:06:40', '2024-06-28 10:06:52');
+
+-- ----------------------------
+-- Table structure for users
+-- ----------------------------
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `username` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `role` enum('USER','ADMIN','OTHER') CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT 'USER',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp,
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `username`(`username` ASC) USING BTREE,
+  UNIQUE INDEX `email`(`email` ASC) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES (1, 'zs', '$2a$10$V8MhobWSl3aS85AtjyevneO0mCvO.OGcoW6jfkE27oO4fd68W364i', 'zhangsan@gmail.com', '13800000001', 'OTHER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (2, 'ls', '$2a$10$P5a3QjVqgsXuVLy.rW2y2ebQ0L44URbTFTG7Y5ALaLnHkCYUvL7FO', 'lisi@gmail.com', '13800000002', 'OTHER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (3, 'ww', 'ww123456', 'wangwu@gmail.com', '13800000003', 'USER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (4, 'zl', 'zl123456', 'zhaoliu@gmail.com', '13800000004', 'USER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (5, 'sq', 'sq123456', 'sunqi@gmail.com', '13800000005', 'USER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (6, 'zb', 'zb123456', 'zhouba@gmail.com', '13800000006', 'USER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (7, 'wj', 'wj123456', 'wujiu@gmail.com', '13800000007', 'USER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (8, '1', 'zs123456', 'zhengshi@gmail.com', '13800000008', 'USER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (9, 'qdd', 'qdd123456', 'qianduoduo@gmail.com', '13800000009', 'USER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (10, 'km', 'km123456', 'kongming@gmail.com', '13800000010', 'USER', '2024-06-24 10:27:47', '2024-06-24 18:37:19');
+INSERT INTO `users` VALUES (11, 'admin', 'admin', 'admin', 'admin', 'USER', '2024-06-24 17:07:25', '2024-06-24 17:07:25');
+INSERT INTO `users` VALUES (12, 't1', '$2a$10$NC4SfE1.ySIeLY3obOTcgOKf4PtrS7mqNv./wz0Q99x2w58vD1HPy', 't1', NULL, 'USER', '2024-06-24 19:23:34', '2024-06-27 17:21:31');
+INSERT INTO `users` VALUES (13, 'TEST1', '$2a$10$793i5j6hziaavCGjpBXfeug4om6b6E0QLkM5NNb3foVsZ1j/75SWy', 'TEST1', '1111111', 'ADMIN', '2024-06-26 21:03:33', '2024-06-26 21:03:33');
+INSERT INTO `users` VALUES (14, 'a1', '$2a$10$aEM86B.AJ/EbaEOufuOSpe2GXv00I9USH5nSGY9cRDPHXOxwPFGcG', 'a1', NULL, 'ADMIN', '2024-06-27 21:12:12', '2024-06-27 21:12:39');
+INSERT INTO `users` VALUES (15, 't2', '$2a$10$h9P0IwPYJg5BsfZ.eDXjsuVNkGemY7FkbVz73fQKF71bB4NhcSxuy', 't2', '1231', 'OTHER', '2024-06-27 21:15:16', '2024-06-27 21:15:16');
+INSERT INTO `users` VALUES (17, 't3', '$2a$10$TFzRaMou3uV4upQqeILhv.8ugPXLH4wNscJHrYNHDyV3G.6Vc7rTu', 't3', NULL, 'USER', '2024-06-28 09:13:13', '2024-06-28 09:13:13');
+INSERT INTO `users` VALUES (18, 't4', '$2a$10$uBLDXBhu6aitHyicXLCVqeJBaRWcdLZKae7fs73eGkTbg2Ge4WJRa', 't4', NULL, 'USER', '2024-06-28 09:27:15', '2024-06-28 09:27:15');
+INSERT INTO `users` VALUES (19, 't5', '$2a$10$vtJXEM0vKYWgXW/IN26Ctu2MofQt/inSXnVpGWL4GrYCSYX7Ixy3C', 't5', NULL, 'USER', '2024-06-28 09:31:54', '2024-06-28 09:31:54');
+INSERT INTO `users` VALUES (20, 't6', '$2a$10$cYOqwNYqUg1pFEZWLQQa5uuyuVdxVujNRxTFDxLa81UvOGuvTNcDa', 't6', NULL, 'OTHER', '2024-06-28 09:40:14', '2024-06-28 09:40:14');
+INSERT INTO `users` VALUES (21, 'T7', '$2a$10$gds/VlwILGx7WtLqEU3SQOkVRi/CpGO/6YrTM6ix3cGpUlF9p.qdq', 'T7', NULL, 'USER', '2024-06-28 10:02:43', '2024-06-28 10:02:43');
+INSERT INTO `users` VALUES (22, 'T8', '$2a$10$EcuJHwOrw5yJ4PhA6nppaeaTZd5vTGLC6hdOKv7i.RJypPD.3GzIG', 'T8', NULL, 'ADMIN', '2024-06-28 10:04:24', '2024-06-28 10:04:24');
+
+SET FOREIGN_KEY_CHECKS = 1;
