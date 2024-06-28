@@ -43,6 +43,7 @@
           <el-select v-model="editUserForm.role" placeholder="请选择角色">
             <el-option label="操作员" value="USER"></el-option>
             <el-option label="管理员" value="ADMIN"></el-option>
+            <el-option label="已禁用" value="OTHER"></el-option>
           </el-select>
         </el-form-item>
       </el-form>
